@@ -1,0 +1,22 @@
+---
+title: "stateideology"
+output: html_document
+---
+
+```{r}
+setwd("~/Desktop/final project")
+library(haven)
+library(readxl)
+```
+
+```{r}
+state <- read_dta("state_level.dta")
+ideo <- read_excel("Legis_Control_2019_February 1st.xlsx")
+ideo$statecode <- tolower(ideo$statecode)
+df <- merge(x=state, y=ideo, by="statecode", all.x=TRUE)
+```
+
+```{r}
+plot(df$state_pregnancy, df$liberal, pch=21, col=c("blue","red")[factor(df$ideo)], xlab="Probability a plan offered in a state offers a pregnancy management program", ylab="Liberalism",main="Association between State Liberalism and Pregnancy Program Offer") 
+text(df$state_pregnancy,df$liberal, labels=df$statecode,cex=0.5)
+```
